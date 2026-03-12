@@ -1,41 +1,16 @@
-import requests from "../utils/requests";
-import MoviesCollection from "../components/MoviesCollection";
-import Hero from "../components/Hero";
-import Navbar from "../components/Navbar";
+import Head from "next/head";
+import Header from "../components/Header";
 
-export default function Home({ trending, topRated }) {
+export default function Home() {
   return (
-    <div className="bg-black text-white min-h-screen">
-
-      <Navbar />
-
-      <div className="pt-24">
-        <Hero movie={trending[0]} />
-      </div>
-
-
-      <MoviesCollection title="Trending" results={trending} />
-      <MoviesCollection title="Top Rated" results={topRated} />
-    </div>
+    <div className="">
+      <Head>
+        <title>Disney+</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head> 
+      
+      <Header />
+     </div>
   );
 }
 
-export async function getServerSideProps() {
-  const trendingRes = await fetch(
-    `https://api.themoviedb.org/3${requests.fetchTrending}`
-  );
-
-  const topRatedRes = await fetch(
-    `https://api.themoviedb.org/3${requests.fetchTopRated}`
-  );
-
-  const trendingData = await trendingRes.json();
-  const topRatedData = await topRatedRes.json();
-
-  return {
-    props: {
-      trending: trendingData.results,
-      topRated: topRatedData.results,
-    },
-  };
-}
